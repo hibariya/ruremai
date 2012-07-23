@@ -4,8 +4,8 @@ require File.expand_path('../lib/ruremai/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ['hibariya']
   gem.email         = ['celluloid.key@gmail.com']
-  gem.description   = %q{Open ruby reference manual by browser.}
-  gem.summary       = %q{Object.method(:name).rurema!}
+  gem.description   = %q{Object.method(:name).rurema!}
+  gem.summary       = %q{Open ruby reference manual by browser.}
   gem.homepage      = 'https://github.com/hibariya/ruremai'
 
   gem.files         = `git ls-files`.split($\)
