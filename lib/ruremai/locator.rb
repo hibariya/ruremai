@@ -21,11 +21,11 @@ module Ruremai
         candidates.detect {|uri| exist?(uri) }
       end
 
-      private
-
       def candidates
         []
       end
+
+      private
 
       def exist?(uri)
         Net::HTTP.start(uri.host, uri.port) {|http|
