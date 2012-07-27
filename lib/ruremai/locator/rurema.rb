@@ -10,7 +10,7 @@ module Ruremai
 
         def candidates
           uri_part    = [RUBY_VERSION, 'method', owner.name.gsub(/::/, '/')].join('/')
-          method_name = CGI.escape(name.to_s).gsub(/%/, '=').downcase # XXX
+          method_name = CGI.escape(name.to_s).gsub(/%/, '=') # XXX
 
           %w(i s m).map {|type|
             URI.parse("#{uri_base}/#{uri_part}/#{type}/#{method_name}.html")
