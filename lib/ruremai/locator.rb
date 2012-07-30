@@ -32,8 +32,8 @@ module Ruremai
         Net::HTTP.start(uri.host, uri.port) {|http|
           response = http.head(uri.path)
 
-          case response.code
-          when *%w(200 301 302) # FIXME: others?
+          case response
+          when Net::HTTPSuccess, Net::HTTPRedirection
             true
           else
             false
