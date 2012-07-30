@@ -9,12 +9,12 @@ module Ruremai
         end
       end
 
-      attr_reader :name, :owner
+      attr_reader :name, :receiver
 
       def initialize(method)
         @method = method
         @name   = method.name
-        @owner  = method.owner
+        @receiver  = method.receiver
       end
 
       def located
