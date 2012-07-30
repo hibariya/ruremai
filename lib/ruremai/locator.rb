@@ -9,12 +9,13 @@ module Ruremai
         end
       end
 
-      attr_reader :name, :receiver
+      attr_reader :name, :receiver, :owner
 
       def initialize(method)
-        @method = method
-        @name   = method.name
+        @method    = method
+        @name      = method.name
         @receiver  = method.receiver
+        @owner     = method.owner
       end
 
       def located
@@ -38,6 +39,11 @@ module Ruremai
             false
           end
         }
+      end
+
+      # XXX can't care singleton method
+      def method_owner
+        owner.name ? owner.name : receiver.name
       end
     end
   end
