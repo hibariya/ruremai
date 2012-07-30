@@ -1,4 +1,4 @@
-class Mean
+class Ruremai::Mean
   attr_accessor :receiver
 
   def initialize(receiver)

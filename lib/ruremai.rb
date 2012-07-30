@@ -8,6 +8,7 @@ require 'ruremai/ext/object'
 
 module Ruremai
   autoload :Locator, 'ruremai/locator'
+  autoload :Mean,    'ruremai/mean'
 
   class NoReferenceManualFound < StandardError; end
 
