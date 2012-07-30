@@ -9,9 +9,13 @@ module Ruremai
         def candidates
           uri_parts = [RUBY_VERSION, 'method']
           if @method.receiver.instance_of?(Class)
-            uri_parts.push(receiver.name.gsub(/::/, '/'))
+            uri_parts << CGI.escape(receiver.name).gsub(/(%[\dA-Z]{2})/) {|s|
+              %(=#{s[1..-1].downcase})
+            }
           else
-            uri_parts.push(receiver.class.name.gsub(/::/, '/'))
+            uri_parts << CGI.escape(receiver.class.name).gsub(/(%[\dA-Z]{2})/) {|s|
+              %(=#{s[1..-1].downcase})
+            }
           end
           uri_part = uri_parts.join('/')
           method_name = CGI.escape(name.to_s).gsub(/(%[\dA-Z]+)/) {|s| %(=#{s[1..-1].downcase}) }
