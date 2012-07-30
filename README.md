@@ -22,12 +22,16 @@ Or install it yourself as:
 
 ## Usage
 
+Method#rurema!:
+
 ```ruby
   Object.method(:name).rurema!
 ```
 
+Object#mean? (shortcut):
+
 ```ruby
-  (something.methods - methods).sort.each {|m| something.method(m).rurema! }
+  Object.mean?.name
 ```
 
 ## TODO
