@@ -1,4 +1,4 @@
-class WhatIsThis
+class Mean
   attr_accessor :receiver
 
   def initialize(receiver)

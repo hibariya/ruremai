@@ -4,7 +4,7 @@ require 'net/http'
 require 'launchy'
 require 'ruremai/version'
 require 'ruremai/ext/method'
-require 'ruremai/ext/basicobject'
+require 'ruremai/ext/object'
 
 module Ruremai
   autoload :Locator, 'ruremai/locator'
