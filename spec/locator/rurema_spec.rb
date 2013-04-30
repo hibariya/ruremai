@@ -9,7 +9,7 @@ describe Ruremai::Locator::Rurema::Ja do
     context 'CamelCase method' do
       let(:target) { method(:Integer) }
 
-      it { should include %(http://doc.ruby-lang.org/ja/1.9.3/method/Kernel/m/Integer.html) }
+      it { should include %(http://doc.ruby-lang.org/ja/#{RUBY_VERSION}/method/Kernel/m/Integer.html) }
     end
 
     context 'query method' do
@@ -27,7 +27,7 @@ describe Ruremai::Locator::Rurema::Ja do
     context 'nested class' do
       let(:target) { Net::HTTP.method(:new) }
 
-      it { should include 'http://doc.ruby-lang.org/ja/1.9.3/method/Net=3a=3aHTTP/s/new.html' }
+      it { should include %(http://doc.ruby-lang.org/ja/#{RUBY_VERSION}/method/Net=3a=3aHTTP/s/new.html) }
     end
   end
 end
