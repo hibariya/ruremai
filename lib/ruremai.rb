@@ -29,7 +29,7 @@ module Ruremai
     end
 
     def locators
-      @locators ||= [Locator::Rurema::Ja]
+      @locators ||= [Locator::Rurema]
     end
 
     def locators=(list)
