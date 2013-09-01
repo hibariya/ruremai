@@ -1,4 +1,4 @@
-# Ruremai
+# Ruremai [![Build Status](https://travis-ci.org/hibariya/ruremai.png?branch=master)](https://travis-ci.org/hibariya/ruremai)
 
 Open ruby reference manual by browser as following.
 
