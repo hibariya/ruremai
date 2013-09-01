@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Ruremai::Locator::Rurema::Ja do
+describe Ruremai::Locator::Rurema do
   describe '#candidates' do
-    let(:locator) { Ruremai::Locator::Rurema::Ja.new(target) }
+    let(:locator) { Ruremai::Locator::Rurema.new(target) }
 
     subject { locator.candidates.map(&:to_s) }
 

@@ -1,25 +1,27 @@
 module Ruremai
   module Locator
     class Rurema < Base
-      class Ja < Rurema
-        def uri_base
-          'http://doc.ruby-lang.org/ja/'
-        end
+      def candidates
+        uri_part    = [RUBY_VERSION, 'method', escape(method_owner)].join('/')
+        method_name = escape(name.to_s)
 
-        def candidates
-          uri_part    = [RUBY_VERSION, 'method', escape(method_owner)].join('/')
-          method_name = escape(name.to_s)
-          types       =
-            if receiver.is_a?(Module)
-              %w(s m i)
-            else
-              %w(i m s)
-            end
+        # s: singleton mehtod, m: module function, i: instance method
+        ordered_types =
+          if receiver.is_a?(Module)
+            %w(s m i)
+          else
+            %w(i m s)
+          end
 
-          types.map {|type|
-            URI.parse("#{uri_base}#{uri_part}/#{type}/#{method_name}.html")
-          }
-        end
+        ordered_types.map {|type|
+          URI.parse("#{uri_base}#{uri_part}/#{type}/#{method_name}.html")
+        }
+      end
+
+      private
+
+      def uri_base
+        'http://doc.ruby-lang.org/ja/'
       end
 
       def escape(str)
