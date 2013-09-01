@@ -5,6 +5,8 @@ module Ruremai
     class Rurema < Base
       URI_BASE = 'http://doc.ruby-lang.org/ja/'
 
+      locale 'ja'
+
       def candidates
         uri_part    = [RUBY_VERSION, 'method', escape(method_owner)].join('/')
         method_name = escape(name.to_s)

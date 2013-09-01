@@ -10,29 +10,38 @@ module Ruremai
   class NoReferenceManualFound < StandardError; end
 
   class << self
-    attr_writer :locators
+    attr_writer :locators, :primary_locale
 
-    def launch(method)
-      if uri = locate(method)
+    def primary_locale
+      @primary_locale ||= 'en'
+    end
+
+    def locators
+      @locators ||= Locator.all
+    end
+
+    def launch(method, locale = primary_locale)
+      if uri = locate(method, locale)
         Launchy.open uri.to_s
       else
         raise NoReferenceManualFound
       end
     end
 
-    def locate(method)
-      # TODO: stop searching after first available located
-      locate_all(method).first
+    def locate(method, locale)
+      ordered_locators(locale).each do |locator|
+        next unless url = locator.locate(method)
+
+        return url
+      end
     end
 
-    def locate_all(method)
-      locators.map {|locator|
-        locator.locate(method)
-      }.compact
-    end
+    def ordered_locators(locale)
+      locale = locale.to_s
 
-    def locators
-      @locators ||= [Locator::Rurema]
+      locators.partition {|locator|
+        locator.locale == locale
+      }.inject(:+)
     end
   end
 end

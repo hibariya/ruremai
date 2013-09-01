@@ -6,10 +6,18 @@ module Ruremai
     autoload :Rurema,      'ruremai/locator/rurema'
     autoload :RubyDocInfo, 'ruremai/locator/ruby_doc_info'
 
+    def self.all
+      [Rurema, RubyDocInfo]
+    end
+
     class Base
       class << self
         def locate(method)
-          new(method).located
+          new(method).locate
+        end
+
+        def locale(name = nil)
+          name ? @locale = name : @locale
         end
       end
 
@@ -22,7 +30,7 @@ module Ruremai
         @owner     = method.owner
       end
 
-      def located
+      def locate
         candidates.detect {|uri| exist?(uri) }
       end
 

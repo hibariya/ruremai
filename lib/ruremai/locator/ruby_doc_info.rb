@@ -1,11 +1,15 @@
+require 'cgi'
+
 module Ruremai
   module Locator
     class RubyDocInfo < Base
       URI_BASE = 'http://www.rubydoc.info/'
 
+      locale 'en'
+
       def candidates
         method_name = escape(name.to_s)
-        uri_parts   = [detect_library_name, 'core'].compact.map {|slug|
+        uri_parts   = ['core', detect_library_name].compact.map {|slug|
           ['stdlib', slug, RUBY_VERSION, method_owner.gsub(/::/, '/')].join('/')
         }
 
