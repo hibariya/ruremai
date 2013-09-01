@@ -1,6 +1,8 @@
 module Ruremai
   module Locator
     class Rurema < Base
+      URI_BASE = 'http://doc.ruby-lang.org/ja/'
+
       def candidates
         uri_part    = [RUBY_VERSION, 'method', escape(method_owner)].join('/')
         method_name = escape(name.to_s)
@@ -14,15 +16,11 @@ module Ruremai
           end
 
         ordered_types.map {|type|
-          URI.parse("#{uri_base}#{uri_part}/#{type}/#{method_name}.html")
+          URI.parse("#{URI_BASE}#{uri_part}/#{type}/#{method_name}.html")
         }
       end
 
       private
-
-      def uri_base
-        'http://doc.ruby-lang.org/ja/'
-      end
 
       def escape(str)
         CGI.escape(str).gsub(/(%[\dA-Z]{2})/) {|s|
