@@ -1,3 +1,5 @@
+require 'cgi'
+
 module Ruremai
   module Locator
     class Rurema < Base

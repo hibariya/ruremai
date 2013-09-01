@@ -1,3 +1,6 @@
+require 'uri'
+require 'net/http'
+
 module Ruremai
   module Locator
     autoload :Rurema, 'ruremai/locator/rurema'

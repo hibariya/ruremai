@@ -1,6 +1,3 @@
-require 'uri'
-require 'cgi'
-require 'net/http'
 require 'launchy'
 require 'ruremai/version'
 require 'ruremai/ext/method'
