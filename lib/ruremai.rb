@@ -10,6 +10,8 @@ module Ruremai
   class NoReferenceManualFound < StandardError; end
 
   class << self
+    attr_writer :locators
+
     def launch(method)
       if uri = locate(method)
         Launchy.open uri.to_s
@@ -30,10 +32,6 @@ module Ruremai
 
     def locators
       @locators ||= [Locator::Rurema]
-    end
-
-    def locators=(list)
-      @locators = list
     end
   end
 end
