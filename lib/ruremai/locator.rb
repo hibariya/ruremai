@@ -3,7 +3,8 @@ require 'net/http'
 
 module Ruremai
   module Locator
-    autoload :Rurema, 'ruremai/locator/rurema'
+    autoload :Rurema,      'ruremai/locator/rurema'
+    autoload :RubyDocInfo, 'ruremai/locator/ruby_doc_info'
 
     class Base
       class << self

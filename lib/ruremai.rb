@@ -21,6 +21,7 @@ module Ruremai
     end
 
     def locate(method)
+      # TODO: stop searching after first available located
       locate_all(method).first
     end
 

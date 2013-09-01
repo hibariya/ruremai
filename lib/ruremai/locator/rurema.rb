@@ -25,7 +25,7 @@ module Ruremai
       private
 
       def escape(str)
-        CGI.escape(str).gsub(/(%[\dA-Z]{2})/) {|s|
+        CGI.escape(str).gsub(/(%[\da-z]{2})/i) {|s|
           %(=#{s[1..-1].downcase})
         }
       end
