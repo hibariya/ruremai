@@ -40,7 +40,7 @@ module Ruremai
 
         library_path = source_path.sub(load_path, '')
 
-        File.basename(library_path.split('/')[1], '.*') # XXX
+        File.basename(library_path.split('/')[1], '.*') # /alpha/bravo.rb -> alpha
       end
 
       def escape(str)
