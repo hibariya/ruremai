@@ -34,6 +34,8 @@ module Ruremai
 
         return url
       end
+
+      nil
     end
 
     def ordered_locators(locale)
