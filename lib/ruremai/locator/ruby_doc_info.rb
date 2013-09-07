@@ -3,24 +3,26 @@ require 'cgi'
 module Ruremai
   module Locator
     class RubyDocInfo < Base
-      URI_BASE = 'http://www.rubydoc.info/'
+      URI_BASE = URI('http://www.rubydoc.info')
 
       locale 'en'
 
       def candidates
-        type_chars  = {module_function: '.', singleton_method: '.', instance_method: ':'}
-        method_name = escape(target.name.to_s)
-        uri_parts   = ['core', detect_library_name].compact.map {|slug|
-          ['stdlib', slug, RUBY_VERSION, method_owner_name.gsub(/::/, '/')].join('/')
-        }
+        method_name   = escape(target.name.to_s)
+        type_chars    = {module_function: '.', singleton_method: '.', instance_method: ':'}
+        library_names = ['core', detect_library_name].compact
 
-        uri_parts.map {|uri_part|
-          ordered_method_types.map {|type|
-            type_char = type_chars[type]
+        library_names.each.with_object([]) {|library_name, uris|
+          owner_constants.each do |constant|
+            constant_name = constant.name.gsub(/::/, '/')
 
-            URI.parse("#{URI_BASE}#{uri_part}#{type_char}#{method_name}")
-          }
-        }.flatten.uniq
+            method_types.each do |type|
+              type_char = type_chars[type]
+
+              uris << URI_BASE + "/stdlib/#{library_name}/#{RUBY_VERSION}/#{constant_name}#{type_char}#{method_name}"
+            end
+          end
+        }.uniq
       end
 
       private

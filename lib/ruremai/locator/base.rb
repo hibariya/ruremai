@@ -23,19 +23,21 @@ module Ruremai
 
       private
 
-      # XXX can't care singleton method
-      # TODO: owner, receiver 両方に定義されていることがあるよ。そのときは receiver の方を優先したいよ
-      def method_owner_name
-        if name = target.owner.name
-          name
-        elsif target.respond_to?(:receiver)
-          target.receiver.name
-        else
-          nil
+      def owner_constants
+        constants = []
+
+        if target.respond_to?(:receiver)
+          receiver = target.receiver
+
+          constants << receiver if receiver.is_a?(Module) && receiver.name
         end
+
+        constants << target.owner if target.owner.name
+
+        constants
       end
 
-      def ordered_method_types
+      def method_types
         method_types_with_score.sort_by {|_, score|
           score
         }.reverse.map {|type, _|

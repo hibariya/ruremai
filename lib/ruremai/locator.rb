@@ -43,6 +43,7 @@ module Ruremai
 
       def head(uri)
         # TODO: reuse existing session
+        #       follow redirect
         Net::HTTP.start(uri.host, uri.port) {|http|
           http.head(uri.path)
         }

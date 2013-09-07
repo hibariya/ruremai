@@ -3,19 +3,22 @@ require 'cgi'
 module Ruremai
   module Locator
     class Rurema < Base
-      URI_BASE = 'http://doc.ruby-lang.org/ja/'
+      URI_BASE = URI('http://doc.ruby-lang.org')
 
       locale 'ja'
 
       def candidates
-        uri_part    = [RUBY_VERSION, 'method', escape(method_owner_name)].join('/')
-        type_chars  = {module_function: 'm', singleton_method: 's', instance_method: 'i'}
         method_name = escape(target.name.to_s)
+        type_chars  = {module_function: 'm', singleton_method: 's', instance_method: 'i'}
 
-        ordered_method_types.map {|type|
-          type_char = type_chars[type]
+        owner_constants.each.with_object([]) {|constant, uris|
+          constant_name = escape(constant.name)
 
-          URI.parse("#{URI_BASE}#{uri_part}/#{type_char}/#{method_name}.html")
+          method_types.each do |type|
+            type_char = type_chars[type]
+
+            uris << URI_BASE + "/ja/#{RUBY_VERSION}/method/#{constant_name}/#{type_char}/#{method_name}.html"
+          end
         }
       end
 
