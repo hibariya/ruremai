@@ -1,7 +1,9 @@
 class Method
   def rurema!(options = {})
-    options = {locale: Ruremai.primary_locale}.merge(options)
-
-    Ruremai.launch self, options[:locale]
+    if locale = options[:locale]
+      Ruremai.launch self, Array(locale)
+    else
+      Ruremai.launch self
+    end
   end
 end

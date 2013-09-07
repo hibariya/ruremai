@@ -6,14 +6,52 @@ module Ruremai
     autoload :Rurema,      'ruremai/locator/rurema'
     autoload :RubyDocInfo, 'ruremai/locator/ruby_doc_info'
 
-    def self.all
-      [Rurema, RubyDocInfo]
+    class << self
+      attr_writer :available_locators
+
+      def available_locators
+        @available_locators ||= [Rurema, RubyDocInfo]
+      end
+
+      def locate(method, locales)
+        ordered_locators(locales).each.with_object([]) {|locator, fallbacks|
+          locator.candidates(method).each do |uri|
+            response = head(uri)
+
+            puts %(#{response.code}: #{uri}) if Ruremai.verbose
+
+            case response
+            when Net::HTTPOK
+              return uri
+            when Net::HTTPSuccess, Net::HTTPRedirection
+              fallbacks << uri
+            end
+          end
+        }.first
+      end
+
+      def ordered_locators(locales)
+        locales.map(&:to_s).inject([]) {|memo, locale|
+          memo + available_locators.select {|locator|
+            locator.locale == locale
+          }
+        }
+      end
+
+      private
+
+      def head(uri)
+        # TODO: reuse existing session
+        Net::HTTP.start(uri.host, uri.port) {|http|
+          http.head(uri.path)
+        }
+      end
     end
 
     class Base
       class << self
-        def locate(method)
-          new(method).locate
+        def candidates(method)
+          new(method).candidates
         end
 
         def locale(name = nil)
@@ -30,28 +68,11 @@ module Ruremai
         @owner     = method.owner
       end
 
-      def locate
-        candidates.detect {|uri| exist?(uri) }
-      end
-
       def candidates
         []
       end
 
       private
-
-      def exist?(uri)
-        Net::HTTP.start(uri.host, uri.port) {|http|
-          response = http.head(uri.path)
-
-          case response
-          when Net::HTTPSuccess, Net::HTTPRedirection
-            true
-          else
-            false
-          end
-        }
-      end
 
       # XXX can't care singleton method
       def method_owner_name
@@ -59,14 +80,14 @@ module Ruremai
       end
 
       def ordered_method_types
-        scored_method_types.sort_by {|_, score|
+        method_types_with_score.sort_by {|_, score|
           score
         }.reverse.map {|type, _|
           type
         }
       end
 
-      def scored_method_types
+      def method_types_with_score
         has_singleton_methohd = owner.methods.include?(name)
         has_private_method    = owner.private_instance_methods.include?(name)
         has_instance_method   = owner.instance_methods.include?(name)

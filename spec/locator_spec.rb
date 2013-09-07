@@ -1,21 +1,21 @@
 require 'spec_helper'
 
-describe Ruremai do
+describe Ruremai::Locator do
   describe '.ordered_locators' do
     context 'locale: en' do
-      subject { Ruremai.ordered_locators('en').first }
+      subject { Ruremai::Locator.ordered_locators(['en']).first }
 
       its(:locale) { should == 'en' }
     end
 
     context 'locale: :en' do
-      subject { Ruremai.ordered_locators(:en).first }
+      subject { Ruremai::Locator.ordered_locators([:en]).first }
 
       its(:locale) { should == 'en' }
     end
 
     context 'locale: ja' do
-      subject { Ruremai.ordered_locators('ja').first }
+      subject { Ruremai::Locator.ordered_locators(['ja']).first }
 
       its(:locale) { should == 'ja' }
     end

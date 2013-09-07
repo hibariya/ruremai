@@ -19,40 +19,21 @@ module Ruremai
 
   class << self
     attr_accessor :verbose
-    attr_writer   :locators, :primary_locale
 
-    def primary_locale
-      @primary_locale ||= 'en'
+    def default_locales
+      @locales ||= %w(en ja)
     end
 
-    def locators
-      @locators ||= Locator.all
+    def default_locales=(names)
+      @locales = Array(names)
     end
 
-    def launch(method, locale = primary_locale)
-      if uri = locate(method, locale)
+    def launch(method, locales = default_locales)
+      if uri = Locator.locate(method, locales)
         Launchy.open uri.to_s
       else
         raise NoReferenceManualFound, method
       end
-    end
-
-    def locate(method, locale)
-      ordered_locators(locale).each do |locator|
-        next unless url = locator.locate(method)
-
-        return url
-      end
-
-      nil
-    end
-
-    def ordered_locators(locale)
-      locale = locale.to_s
-
-      locators.partition {|locator|
-        locator.locale == locale
-      }.inject(:+)
     end
   end
 end

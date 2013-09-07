@@ -12,6 +12,9 @@ task :rurema! do
 
   ARGV.shift # XXX
 
+  Ruremai.verbose = true
+  puts %(Default locales: #{Ruremai.default_locales})
+
   IRB.start __FILE__
 end
 
