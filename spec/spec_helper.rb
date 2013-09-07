@@ -1,6 +1,9 @@
 # coding: utf-8
 
-require_relative '../lib/ruremai'
+$LOAD_PATH.unshift File.dirname(__dir__) + '/lib'
+
+require 'ruremai'
+require 'tapp'
 
 RSpec.configure do |config|
   config.filter_run focus: true

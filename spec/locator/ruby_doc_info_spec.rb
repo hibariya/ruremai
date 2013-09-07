@@ -9,43 +9,43 @@ describe Ruremai::Locator::RubyDocInfo do
     describe 'CamelCase method' do
       let(:target) { method(:Integer) }
 
-      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Kernel:Integer?process=true) }
+      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Kernel:Integer) }
     end
 
     describe 'query method' do
       let(:target) { nil.method(:nil?) }
 
-      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/NilClass:nil%3f?process=true) }
+      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/NilClass:nil%3f) }
     end
 
     describe 'space ship operator' do
       let(:target) { 0.method(:<=>) }
 
-      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Fixnum:%3c%3d%3e?process=true) }
+      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Fixnum:%3c%3d%3e) }
     end
 
     describe 'nested class' do
       let(:target) { Net::HTTP.method(:new) }
 
-      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Net/HTTP.new?process=true) }
+      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Net/HTTP.new) }
     end
 
     describe '`' do
       let(:target) { Kernel.method(:`) }
 
-      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Kernel:%60?process=true) }
+      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Kernel:%60) }
     end
 
     describe 'infix operator method' do
       let(:target) { 1.method(:+) }
 
-      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Fixnum:%2b?process=true) }
+      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Fixnum:%2b) }
     end
 
     describe 'prefix operator method' do
       let(:target) { 1.method(:+@) }
 
-      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Numeric:%2b%40?process=true) }
+      it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Numeric:%2b%40) }
     end
   end
 end

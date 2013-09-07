@@ -8,24 +8,19 @@ module Ruremai
       locale 'en'
 
       def candidates
+        type_chars  = {module_function: '.', singleton_method: '.', instance_method: ':'}
         method_name = escape(name.to_s)
         uri_parts   = ['core', detect_library_name].compact.map {|slug|
-          ['stdlib', slug, RUBY_VERSION, method_owner.gsub(/::/, '/')].join('/')
+          ['stdlib', slug, RUBY_VERSION, method_owner_name.gsub(/::/, '/')].join('/')
         }
 
-        # `.': class method, `:': instance method
-        ordered_types =
-          if receiver.is_a?(Module)
-            %w(. :)
-          else
-            %w(: .)
-          end
-
         uri_parts.map {|uri_part|
-          ordered_types.map {|type|
-            URI.parse("#{URI_BASE}#{uri_part}#{type}#{method_name}?process=true")
+          ordered_method_types.map {|type|
+            type_char = type_chars[type]
+
+            URI.parse("#{URI_BASE}#{uri_part}#{type_char}#{method_name}")
           }
-        }.flatten
+        }.flatten.uniq
       end
 
       private

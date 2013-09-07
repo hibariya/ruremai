@@ -54,8 +54,35 @@ module Ruremai
       end
 
       # XXX can't care singleton method
-      def method_owner
+      def method_owner_name
         owner.name ? owner.name : receiver.name
+      end
+
+      def ordered_method_types
+        scored_method_types.sort_by {|_, score|
+          score
+        }.reverse.map {|type, _|
+          type
+        }
+      end
+
+      def scored_method_types
+        has_singleton_methohd = owner.methods.include?(name)
+        has_private_method    = owner.private_instance_methods.include?(name)
+        has_instance_method   = owner.instance_methods.include?(name)
+
+        {singleton_method: 0, instance_method: 0, module_function: 0}.tap {|t|
+          t[:module_function]  += 1 if has_singleton_methohd  && has_private_method
+          t[:singleton_method] += 1 if has_singleton_methohd  && !has_private_method
+          t[:instance_method]  += 1 if !has_singleton_methohd && has_instance_method
+
+          if receiver.is_a?(Module)
+            t[:module_function]  += 1
+            t[:singleton_method] += 1
+          else
+            t[:instance_method]  += 1
+          end
+        }
       end
     end
   end

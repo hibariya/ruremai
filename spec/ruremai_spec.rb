@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pp'
 
 describe Ruremai do
   describe '.ordered_locators' do
@@ -20,4 +21,19 @@ describe Ruremai do
       its(:locale) { should == 'ja' }
     end
   end
+
+  #describe '.locate' do
+  #  context 'primary_locale: en' do
+  #    describe 'PP::ObjectMixin#pretty_print_cycle' do
+  #      let(:locale)  { :en }
+  #      let(:methods) { Kernel.methods(false) }
+
+  #      specify do
+  #        methods.each do |m|
+  #          Ruremai.launch(Kernel.method(m), locale)
+  #        end
+  #      end
+  #    end
+  #  end
+  #end
 end
