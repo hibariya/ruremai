@@ -9,7 +9,7 @@ module Ruremai
 
       def candidates
         type_chars  = {module_function: '.', singleton_method: '.', instance_method: ':'}
-        method_name = escape(name.to_s)
+        method_name = escape(target.name.to_s)
         uri_parts   = ['core', detect_library_name].compact.map {|slug|
           ['stdlib', slug, RUBY_VERSION, method_owner_name.gsub(/::/, '/')].join('/')
         }
@@ -26,7 +26,7 @@ module Ruremai
       private
 
       def detect_library_name
-        return nil unless source_location = @method.source_location
+        return nil unless source_location = target.source_location
 
         source_path = source_location.first
         load_path   = $LOAD_PATH.detect {|path|

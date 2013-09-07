@@ -10,7 +10,7 @@ module Ruremai
       def candidates
         uri_part    = [RUBY_VERSION, 'method', escape(method_owner_name)].join('/')
         type_chars  = {module_function: 'm', singleton_method: 's', instance_method: 'i'}
-        method_name = escape(name.to_s)
+        method_name = escape(target.name.to_s)
 
         ordered_method_types.map {|type|
           type_char = type_chars[type]

@@ -13,3 +13,7 @@ end
 class Method
   include Ruremai::MethodMixin
 end
+
+class UnboundMethod
+  include Ruremai::MethodMixin
+end
