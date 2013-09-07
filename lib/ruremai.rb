@@ -7,10 +7,19 @@ module Ruremai
   autoload :Locator, 'ruremai/locator'
   autoload :Mean,    'ruremai/mean'
 
-  class NoReferenceManualFound < StandardError; end
+  class NoReferenceManualFound < StandardError
+    attr_reader :target
+
+    def initialize(target_method)
+      @target = target_method
+
+      super "No reference manual found for #{target.inspect}"
+    end
+  end
 
   class << self
-    attr_writer :locators, :primary_locale
+    attr_accessor :verbose
+    attr_writer   :locators, :primary_locale
 
     def primary_locale
       @primary_locale ||= 'en'
@@ -24,7 +33,7 @@ module Ruremai
       if uri = locate(method, locale)
         Launchy.open uri.to_s
       else
-        raise NoReferenceManualFound
+        raise NoReferenceManualFound, method
       end
     end
 

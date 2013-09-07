@@ -33,6 +33,8 @@ module Ruremai
           source_path.start_with?(path)
         }
 
+        return nil unless load_path
+
         library_path = source_path.sub(load_path, '')
 
         File.basename(library_path.split('/')[1], '.*') # /alpha/bravo.rb -> alpha
