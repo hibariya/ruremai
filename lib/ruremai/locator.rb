@@ -16,16 +16,20 @@ module Ruremai
 
       def locate(method, locales)
         ordered_locators(locales).each.with_object([]) {|locator, fallbacks|
-          locator.candidates(method).each do |uri|
-            response = head(uri)
+          uri = locator::URI_BASE
 
-            puts %(#{response.code}: #{uri}) if Ruremai.verbose
+          Net::HTTP.start uri.host, uri.port do |http|
+            puts %(Start: #{uri}) if Ruremai.verbose
 
-            case response
-            when Net::HTTPOK
-              return uri
-            when Net::HTTPSuccess, Net::HTTPRedirection
-              fallbacks << uri
+            locator.candidates(method).each do |uri|
+              response = http.head(uri.path)
+
+              puts %(#{response.code}: #{uri.path}) if Ruremai.verbose
+
+              case response
+              when Net::HTTPOK                            then return uri
+              when Net::HTTPSuccess, Net::HTTPRedirection then fallbacks << uri
+              end
             end
           end
         }.first
@@ -36,16 +40,6 @@ module Ruremai
           memo + available_locators.select {|locator|
             locator.locale == locale
           }
-        }
-      end
-
-      private
-
-      def head(uri)
-        # TODO: reuse existing session
-        #       follow redirect
-        Net::HTTP.start(uri.host, uri.port) {|http|
-          http.head(uri.path)
         }
       end
     end
