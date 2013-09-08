@@ -38,33 +38,44 @@ module Ruremai
       end
 
       def method_types
-        method_types_with_score.sort_by {|_, score|
-          score
-        }.reverse.map {|type, _|
+        scored_method_types.sort_by {|type, score|
+          [-score, type]
+        }.map {|type, _|
           type
         }
       end
 
-      def method_types_with_score
-        owner, name = target.owner, target.name
+      def scored_method_types
+        name = target.name
 
-        has_singleton_methohd = owner.methods.include?(name)
-        has_private_method    = owner.private_instance_methods.include?(name)
-        has_instance_method   = owner.instance_methods.include?(name)
+        {instance_method: 0, module_function: 0, singleton_method: 0}.tap {|t|
+          owner = target.owner
 
-        {singleton_method: 0, instance_method: 0, module_function: 0}.tap {|t|
-          t[:module_function]  += 1 if has_singleton_methohd  && has_private_method
-          t[:singleton_method] += 1 if has_singleton_methohd  && !has_private_method
-          t[:instance_method]  += 1 if !has_singleton_methohd && has_instance_method
-
-          next unless target.respond_to?(:receiver)
-
-          if target.receiver.is_a?(Module)
-            t[:module_function]  += 1
-            t[:singleton_method] += 1
+          unless target.respond_to?(:receiver)
+            t[:instance_method] += 1
           else
-            t[:instance_method]  += 1
+            receiver = target.receiver
+
+            if receiver.is_a?(Module)
+              t[:instance_method] -= 1
+
+              if receiver.private_instance_methods.include?(name)
+                t[:module_function]  += 1
+              else
+                t[:singleton_method] += 1
+              end
+            else
+              t[:singleton_method] -= 1
+
+              if receiver.private_methods.include?(name)
+                t[:module_function] += 1
+              else
+                t[:instance_method] += 1
+              end
+            end
           end
+
+          puts %(Scored method types: #{t.inspect}) if Ruremai.verbose
         }
       end
     end

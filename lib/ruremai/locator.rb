@@ -24,7 +24,7 @@ module Ruremai
             locator.candidates(method).each do |uri|
               response = http.head(uri.path)
 
-              puts %(#{response.code}: #{uri.path}) if Ruremai.verbose
+              puts %(#{response.code}: #{uri}) if Ruremai.verbose
 
               case response
               when Net::HTTPOK                            then return uri
