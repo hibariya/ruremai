@@ -67,19 +67,19 @@ describe Ruremai::Locator do
     subject { Ruremai::Locator.send(:ordered_locators, locales).first }
 
     context 'locale: en' do
-      let(:locales) { %w(en) }
+      let(:locales) { ['en'] }
 
       its(:locale) { should == 'en' }
     end
 
     context 'locale: :en' do
-      let(:locales) { %i(en) }
+      let(:locales) { [:en] }
 
       its(:locale) { should == 'en' }
     end
 
     context 'locale: ja' do
-      let(:locales) { %w(ja) }
+      let(:locales) { ['ja'] }
 
       its(:locale) { should == 'ja' }
     end
