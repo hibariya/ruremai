@@ -3,9 +3,8 @@ require 'cgi'
 module Ruremai
   module Locator
     class RubyDocInfo < Base
-      URI_BASE = URI('http://www.rubydoc.info')
-
-      locale 'en'
+      locale   'en'
+      base_uri 'http://www.rubydoc.info'
 
       def candidates
         method_name   = escape(target.name.to_s)
@@ -19,7 +18,7 @@ module Ruremai
             method_types.each do |type|
               type_char = type_chars[type]
 
-              uris << URI_BASE + "/stdlib/#{library_name}/#{RUBY_VERSION}/#{constant_name}#{type_char}#{method_name}"
+              uris << base_uri + "/stdlib/#{library_name}/#{RUBY_VERSION}/#{constant_name}#{type_char}#{method_name}"
             end
           end
         }.uniq

@@ -1,3 +1,5 @@
+require 'uri'
+
 module Ruremai
   module Locator
     class Base
@@ -8,6 +10,10 @@ module Ruremai
 
         def locale(name = nil)
           name ? @locale = name : @locale
+        end
+
+        def base_uri(uri = nil)
+          uri ? @base_uri = URI(uri) : @base_uri
         end
       end
 
@@ -22,6 +28,10 @@ module Ruremai
       end
 
       private
+
+      def base_uri
+        self.class.base_uri
+      end
 
       def owner_constants
         constants = []

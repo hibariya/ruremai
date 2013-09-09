@@ -3,9 +3,8 @@ require 'cgi'
 module Ruremai
   module Locator
     class Rurema < Base
-      URI_BASE = URI('http://doc.ruby-lang.org')
-
-      locale 'ja'
+      locale   'ja'
+      base_uri 'http://doc.ruby-lang.org'
 
       def candidates
         method_name = escape(target.name.to_s)
@@ -17,7 +16,7 @@ module Ruremai
           method_types.each do |type|
             type_char = type_chars[type]
 
-            uris << URI_BASE + "/ja/#{RUBY_VERSION}/method/#{constant_name}/#{type_char}/#{method_name}.html"
+            uris << base_uri + "/ja/#{RUBY_VERSION}/method/#{constant_name}/#{type_char}/#{method_name}.html"
           end
         }
       end

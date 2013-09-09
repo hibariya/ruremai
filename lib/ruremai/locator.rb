@@ -1,3 +1,4 @@
+require 'set'
 require 'uri'
 require 'net/http'
 
@@ -11,12 +12,12 @@ module Ruremai
       attr_writer :available_locators
 
       def available_locators
-        @available_locators ||= [Rurema, RubyDocInfo]
+        @available_locators ||= Set.new([Rurema, RubyDocInfo])
       end
 
       def locate(method, locales)
         ordered_locators(locales).each.with_object([]) {|locator, fallbacks|
-          uri = locator::URI_BASE
+          uri = locator.base_uri
 
           Net::HTTP.start uri.host, uri.port do |http|
             puts %(Start: #{uri}) if Ruremai.verbose
@@ -34,6 +35,8 @@ module Ruremai
           end
         }.first
       end
+
+      private
 
       def ordered_locators(locales)
         locales.map(&:to_s).inject([]) {|memo, locale|

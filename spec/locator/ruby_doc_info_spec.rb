@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'csv'
 
 describe Ruremai::Locator::RubyDocInfo do
   describe '#candidates' do
@@ -46,6 +47,20 @@ describe Ruremai::Locator::RubyDocInfo do
       let(:target) { 1.method(:+@) }
 
       it { should include %(http://www.rubydoc.info/stdlib/core/#{RUBY_VERSION}/Numeric:%2b%40) }
+    end
+
+    describe 'stdlib method' do
+      describe 'CSV.parse' do
+        let(:target) { CSV.method(:parse) }
+
+        it { should include %(http://www.rubydoc.info/stdlib/csv/#{RUBY_VERSION}/CSV.parse) }
+      end
+
+      describe 'CSV#each' do
+        let(:target) { CSV.instance_method(:each) }
+
+        it { should include %(http://www.rubydoc.info/stdlib/csv/#{RUBY_VERSION}/CSV:each) }
+      end
     end
   end
 end
