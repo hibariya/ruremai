@@ -1,23 +1,20 @@
 # Ruremai [![Build Status](https://travis-ci.org/hibariya/ruremai.png?branch=master)](https://travis-ci.org/hibariya/ruremai)
 
 Ruremai provides `Method#rurema!` method.
-`Method#rurema!` opens `rurema` (RUby REference MAnual) by your $BROWSER.
+This method opens `rurema` (RUby REference MAnual) by your `$BROWSER`.
 
 Quick start:
 
 ```
 $ gem i ruremai
-Successfully installed ruremai-0.0.3
-Parsing documentation for ruremai-0.0.3
-1 gem installed
 $ irb -r ruremai
 irb(main):001:0> Object.method(:name).rurema!
 ```
 
 ## Supported reference manuals
 
-* (www.rubydoc.info)[http://www.rubydoc.info/stdlib] (en)
-* (doc.ruby-lang.org/ja/)[http://doc.ruby-lang.org/ja/] (ja)
+* [www.rubydoc.info](http://www.rubydoc.info/stdlib) (en)
+* [doc.ruby-lang.org/ja/](http://doc.ruby-lang.org/ja/) (ja)
 
 ## Usage
 
@@ -60,6 +57,13 @@ To change this behaviour, Set an ordered locales. Like below:
 ```ruby
 Ruremai.locales = %w(ja en)
 Object.method(:name).rurema! # Open http://doc.ruby-lang.org/ja/2.0.0/method/Module/i/name.html
+```
+
+To disable any locale(s), Exclude it:
+
+```ruby
+Ruremai.locales = %w(en)
+Object.method(:name).rurema! # Open http://www.rubydoc.info/stdlib/core/2.0.0/Module:name
 ```
 
 ### Verbose mode (for debug)
