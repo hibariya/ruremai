@@ -13,7 +13,7 @@ irb(main):001:0> Object.method(:name).rurema!
 
 ## Supported reference manuals
 
-* [www.rubydoc.info](http://www.rubydoc.info/stdlib) (en)
+* [www.rubydoc.info/stdlib/](http://www.rubydoc.info/stdlib/) (en)
 * [doc.ruby-lang.org/ja/](http://doc.ruby-lang.org/ja/) (ja)
 
 ## Usage

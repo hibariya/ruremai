@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ['hibariya']
   gem.email         = ['celluloid.key@gmail.com']
   gem.description   = %q{Object.method(:name).rurema!}
-  gem.summary       = %q{Open ruby reference manual by browser.}
+  gem.summary       = %q{Open ruby reference manuals by browser.}
   gem.homepage      = 'https://github.com/hibariya/ruremai'
 
   gem.files         = `git ls-files`.split($\)
