@@ -21,7 +21,7 @@ module Ruremai
     attr_accessor :verbose
 
     def default_locales
-      @locales ||= %w(en ja)
+      @locales ||= detect_default_locales
     end
 
     def default_locales=(names)
@@ -34,6 +34,12 @@ module Ruremai
       else
         raise NoReferenceManualFound, method
       end
+    end
+
+    private
+
+    def detect_default_locales
+      /^ja_/ === ENV['LANG'] ? %w(ja en) : %w(en ja)
     end
   end
 end
