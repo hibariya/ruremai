@@ -25,11 +25,7 @@ describe Ruremai::Locator do
       stub_request(:head, uris[:accepted].to_s).to_return(status: 202)
       stub_request(:head, uris[:ok].to_s).to_return(status: 200)
 
-      Ruremai::Locator.available_locators.replace [@locator]
-    end
-
-    after do
-      Ruremai::Locator.available_locators = nil
+      Ruremai::Locator.stub(:locators) { [@locator] }
     end
 
     context 'got [202, 200]' do
@@ -63,8 +59,8 @@ describe Ruremai::Locator do
     end
   end
 
-  describe '.ordered_locators' do
-    subject { Ruremai::Locator.send(:ordered_locators, locales).first }
+  describe '.locators_for' do
+    subject { Ruremai::Locator.send(:locators_for, locales).first }
 
     context 'locale: en' do
       let(:locales) { ['en'] }

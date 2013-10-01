@@ -1,19 +1,19 @@
 require 'spec_helper'
 
 describe Ruremai::Locator::Base do
-  describe '#owner_constants' do
+  describe '#owner_candidates' do
     subject { Ruremai::Locator::Base.new(target) }
 
     context 'Method' do
       let(:target) { Array.method(:new) }
 
-      its(:owner_constants) { should == [Array, Class] }
+      its(:owner_candidates) { should == [Array, Class] }
     end
 
     context 'UnboundMethod' do
       let(:target) { Array.method(:new).unbind }
 
-      its(:owner_constants) { should == [Class] }
+      its(:owner_candidates) { should == [Class] }
     end
   end
 

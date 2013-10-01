@@ -9,14 +9,8 @@ module Ruremai
     autoload :RubyDocInfo, 'ruremai/locator/ruby_doc_info'
 
     class << self
-      attr_writer :available_locators
-
-      def available_locators
-        @available_locators ||= Set.new([Rurema, RubyDocInfo])
-      end
-
       def locate(method, locales)
-        ordered_locators(locales).each.with_object([]) {|locator, fallbacks|
+        locators_for(locales).each.with_object([]) {|locator, fallbacks|
           uri = locator.base_uri
 
           Net::HTTP.start uri.host, uri.port do |http|
@@ -38,11 +32,13 @@ module Ruremai
 
       private
 
-      def ordered_locators(locales)
+      def locators
+        @locators ||= Set.new([Rurema, RubyDocInfo])
+      end
+
+      def locators_for(locales)
         locales.map(&:to_s).inject([]) {|memo, locale|
-          memo + available_locators.select {|locator|
-            locator.locale == locale
-          }
+          memo.concat locators.select {|locator| locator.locale == locale }
         }
       end
     end

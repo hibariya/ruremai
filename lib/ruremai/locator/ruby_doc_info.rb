@@ -12,13 +12,13 @@ module Ruremai
         library_names = ['core', detect_library_name].compact
 
         library_names.each.with_object([]) {|library_name, uris|
-          owner_constants.each do |constant|
-            constant_name = constant.name.gsub(/::/, '/')
+          owner_candidates.each do |const|
+            const_name = const.name.gsub(/::/, '/')
 
             method_types.each do |type|
               type_char = type_chars[type]
 
-              uris << base_uri + "/stdlib/#{library_name}/#{RUBY_VERSION}/#{constant_name}#{type_char}#{method_name}"
+              uris << base_uri + "/stdlib/#{library_name}/#{RUBY_VERSION}/#{const_name}#{type_char}#{method_name}"
             end
           end
         }.uniq
@@ -26,10 +26,11 @@ module Ruremai
 
       private
 
+      # [load_path]/alpha/bravo.rb -> alpha
       def detect_library_name
         return nil unless source_location = target.source_location
 
-        source_path = source_location.first
+        source_path = source_location[0]
         load_path   = $LOAD_PATH.detect {|path|
           source_path.start_with?(path)
         }
@@ -38,7 +39,7 @@ module Ruremai
 
         library_path = source_path.sub(load_path, '')
 
-        File.basename(library_path.split('/')[1], '.*') # /alpha/bravo.rb -> alpha
+        File.basename(library_path.split('/')[1], '.*')
       end
 
       def escape(str)

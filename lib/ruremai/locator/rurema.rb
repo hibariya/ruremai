@@ -10,13 +10,13 @@ module Ruremai
         method_name = escape(target.name.to_s)
         type_chars  = {module_function: 'm', singleton_method: 's', instance_method: 'i'}
 
-        owner_constants.each.with_object([]) {|constant, uris|
-          constant_name = escape(constant.name)
+        owner_candidates.each.with_object([]) {|const, uris|
+          const_name = escape(const.name)
 
           method_types.each do |type|
             type_char = type_chars[type]
 
-            uris << base_uri + "/ja/#{RUBY_VERSION}/method/#{constant_name}/#{type_char}/#{method_name}.html"
+            uris << base_uri + "/ja/#{RUBY_VERSION}/method/#{const_name}/#{type_char}/#{method_name}.html"
           end
         }
       end

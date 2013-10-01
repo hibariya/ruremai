@@ -33,18 +33,16 @@ module Ruremai
         self.class.base_uri
       end
 
-      def owner_constants
-        constants = []
+      def owner_candidates
+        [].tap {|candidates|
+          if target.respond_to?(:receiver)
+            receiver   = target.receiver
+            candidates << receiver if receiver.is_a?(Module) && receiver.name
+          end
 
-        if target.respond_to?(:receiver)
-          receiver = target.receiver
-
-          constants << receiver if receiver.is_a?(Module) && receiver.name
-        end
-
-        constants << target.owner if target.owner.name
-
-        constants
+          owner      = target.owner
+          candidates << owner if owner.name
+        }
       end
 
       def method_types
@@ -59,29 +57,30 @@ module Ruremai
         name = target.name
 
         {instance_method: 0, module_function: 0, singleton_method: 0}.tap {|t|
-          owner = target.owner
-
           unless target.respond_to?(:receiver)
-            t[:instance_method] += 1
-          else
-            receiver = target.receiver
+            t[:instance_method] += 1 # from Module#instance_method (not Method#unbind) ?
+            next
+          end
 
-            if receiver.is_a?(Module)
-              t[:instance_method] -= 1
+          receiver = target.receiver
 
-              if receiver.private_instance_methods.include?(name)
-                t[:module_function]  += 1
-              else
-                t[:singleton_method] += 1
-              end
+          if receiver.is_a?(Module)
+            t[:module_function]  += 1
+            t[:singleton_method] += 1
+
+            if receiver.private_instance_methods.include?(name)
+              t[:module_function]  += 1
             else
-              t[:singleton_method] -= 1
+              t[:singleton_method] += 1
+            end
+          else
+            t[:module_function] += 1
+            t[:instance_method] += 1
 
-              if receiver.private_methods.include?(name)
-                t[:module_function] += 1
-              else
-                t[:instance_method] += 1
-              end
+            if receiver.private_methods.include?(name)
+              t[:module_function] += 1
+            else
+              t[:instance_method] += 1
             end
           end
 
