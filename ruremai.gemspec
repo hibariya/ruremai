@@ -15,6 +15,11 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = Ruremai::VERSION
 
+  gem.post_install_message = <<-EOM
+    Supported locales are %i(en ja).
+    Call `Ruremai.default_locales = %i(en)` to specify English as available locale.
+  EOM
+
   gem.add_runtime_dependency 'launchy', '~> 2.3.0'
 
   gem.add_development_dependency 'rake'
