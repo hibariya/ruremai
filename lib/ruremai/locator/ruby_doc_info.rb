@@ -12,7 +12,7 @@ module Ruremai
         library_names = ['core', detect_library_name].compact
 
         library_names.each.with_object([]) {|library_name, uris|
-          owner_candidates.each do |const|
+          const_candidates.each do |const|
             const_name = const.name.gsub(/::/, '/')
 
             method_types.each do |type|

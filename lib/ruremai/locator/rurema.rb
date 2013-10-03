@@ -10,7 +10,7 @@ module Ruremai
         method_name = escape(target.name.to_s)
         type_chars  = {module_function: 'm', singleton_method: 's', instance_method: 'i'}
 
-        owner_candidates.each.with_object([]) {|const, uris|
+        const_candidates.each.with_object([]) {|const, uris|
           const_name = escape(const.name)
 
           method_types.each do |type|

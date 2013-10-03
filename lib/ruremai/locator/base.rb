@@ -33,7 +33,7 @@ module Ruremai
         self.class.base_uri
       end
 
-      def owner_candidates
+      def const_candidates
         [].tap {|candidates|
           if target.respond_to?(:receiver)
             receiver   = target.receiver
