@@ -15,9 +15,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = Ruremai::VERSION
 
-  gem.add_runtime_dependency 'launchy', '~> 2.1.0'
+  gem.add_runtime_dependency 'launchy', '~> 2.4.3'
 
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'tapp', '~> 1.3.1'
-  gem.add_development_dependency 'rspec', '>= 2.10.0'
+  gem.add_development_dependency 'tapp', '~> 1.5.0'
+  gem.add_development_dependency 'rspec', '~> 3.2.0'
 end
