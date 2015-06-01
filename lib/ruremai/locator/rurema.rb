@@ -4,9 +4,11 @@ module Ruremai
   module Locator
     class Rurema < Base
       URI_BASE = 'http://doc.ruby-lang.org/ja/'
+      major, minor, teeny = *RUBY_VERSION.split(".").map(&:to_i)
+      PATH_VERSION_PART = [major, minor, major >= 2 ? 0 : teeny].join(".")
 
       def candidates
-        uri_part    = [RUBY_VERSION, 'method', escape(method_owner)].join('/')
+        uri_part    = [PATH_VERSION_PART, 'method', escape(method_owner)].join('/')
         method_name = escape(name.to_s)
 
         # s: singleton mehtod, m: module function, i: instance method
