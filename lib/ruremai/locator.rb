@@ -32,10 +32,11 @@ module Ruremai
       private
 
       def exist?(uri)
-        Net::HTTP.start(uri.host, uri.port) {|http|
-          response = http.head(uri.path)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
 
-          case response
+        http.start {|h|
+          case h.head(uri.path)
           when Net::HTTPSuccess, Net::HTTPRedirection
             true
           else
@@ -46,7 +47,7 @@ module Ruremai
 
       # XXX can't care singleton method
       def method_owner
-        owner.name ? owner.name : receiver.name
+        owner.name ? owner : receiver
       end
     end
   end
