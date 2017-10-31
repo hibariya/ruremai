@@ -31,7 +31,7 @@ module Ruremai
 
       private
 
-      def exist?(uri)
+      def exist?(uri, tries = 3)
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
 
@@ -43,6 +43,13 @@ module Ruremai
             false
           end
         }
+      rescue Net::OpenTimeout => e
+        if tries.zero?
+          abort "Aborting due to #{e.class} (#{e.message})"
+        else
+          warn 'Retrying...'
+          exist?(uri, tries - 1)
+        end
       end
 
       # XXX can't care singleton method
