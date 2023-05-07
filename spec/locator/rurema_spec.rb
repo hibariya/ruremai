@@ -2,7 +2,15 @@ require 'spec_helper'
 
 describe Ruremai::Locator::Rurema do
   describe '#candidates' do
-    PATH_VERSION_PART = (/\A1\./ =~ RUBY_VERSION ? RUBY_VERSION : RUBY_VERSION[/\A\d+\.\d+/] + ".0").freeze
+    PATH_VERSION_PART = case RUBY_VERSION
+    when /\A1\./ 
+      RUBY_VERSION
+    when /\A2\./
+      RUBY_VERSION[/\A\d+\.\d+/] + ".0"
+    else
+      RUBY_VERSION[/\A\d+\.\d+/]
+    end.freeze
+
     let(:locator) { Ruremai::Locator::Rurema.new(target) }
 
     subject { locator.candidates.map(&:to_s) }
